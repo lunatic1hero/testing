@@ -1,0 +1,1 @@
+first of all i have build a log_parser that parses that xml file and creates a csv file which can be later used for traininthe waf iam about to create ok but the problem is ihave the har file instead of xml file now i will prove the format of xml i want and the format of har i have and the log_parser i built now i will provide the details one by one so wait
