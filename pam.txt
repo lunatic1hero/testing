@@ -1,11 +1,8 @@
 Traceback (most recent call last):
-  File "/home/sake/Downloads/testing-main/iit_soc/bapu.py", line 177, in <module>
+  File "/home/sake/Downloads/testing-main/iit_soc/bapu.py", line 142, in <module>
     features = analyze_request_har(request_method, request_url, request_headers, request_body_params)
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/sake/Downloads/testing-main/iit_soc/bapu.py", line 37, in analyze_request_har
-    uid_value = next((param['value'] for param in request_body_params.get('uid', []) if param.get('name') == 'uid'), '')
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/sake/Downloads/testing-main/iit_soc/bapu.py", line 37, in <genexpr>
-    uid_value = next((param['value'] for param in request_body_params.get('uid', []) if param.get('name') == 'uid'), '')
-                                                                                        ^^^^^^^^^
-AttributeError: 'str' object has no attribute 'get'
+  File "/home/sake/Downloads/testing-main/iit_soc/bapu.py", line 73, in analyze_request_har
+    features['has_sql_keywords'] = int(any(re.search(r'\b({})\b'.format('|'.join(sql_keywords)), uid_value, re.IGNORECASE)))
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable
