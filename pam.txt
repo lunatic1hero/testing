@@ -1,8 +1,5 @@
 Traceback (most recent call last):
-  File "/home/sake/Downloads/testing-main/iit_soc/bapu.py", line 168, in <module>
-    features = analyze_request_har(request_method, request_url, request_headers, uid_value, request_body)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/sake/Downloads/testing-main/iit_soc/bapu.py", line 61, in analyze_request_har
-    features['has_sql_keywords'] = int(any(re.search(r'\b({})\b'.format('|'.join(sql_keywords)), uid_value, re.IGNORECASE)))
-                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: 'NoneType' object is not iterable
+  File "/home/sake/Downloads/testing-main/iit_soc/bapu.py", line 167, in <module>
+    uid_value = next((param['value'] for param in request_body.get('params', []) if param['name'] == 'uid'), None)
+                                                  ^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
