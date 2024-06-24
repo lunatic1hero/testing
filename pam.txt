@@ -1,1 +1,8 @@
-first of all i have build a log_parser that parses that xml file and creates a csv file which can be later used for traininthe waf iam about to create ok but the problem is ihave the har file instead of xml file now i will prove the format of xml i want and the format of har i have and the log_parser i built now i will provide the details one by one so wait
+Traceback (most recent call last):
+  File "/home/sake/Downloads/testing-main/iit_soc/bapu.py", line 168, in <module>
+    features = analyze_request_har(request_method, request_url, request_headers, uid_value, request_body)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sake/Downloads/testing-main/iit_soc/bapu.py", line 61, in analyze_request_har
+    features['has_sql_keywords'] = int(any(re.search(r'\b({})\b'.format('|'.join(sql_keywords)), uid_value, re.IGNORECASE)))
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'NoneType' object is not iterable
