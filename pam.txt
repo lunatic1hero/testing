@@ -1,38 +1,11 @@
-Analyzing request: GET http://testasp.vulnweb.com/
-Request headers: {'host': 'testasp.vulnweb.com', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0', 'pragma': 'no-cache', 'cache-control': 'no-cache'}
-Request body params: []
-Extracted UID value: None
-UID value is None, skipping SQL keyword analysis for request: GET http://testasp.vulnweb.com/
-Analyzing request: GET http://testasp.vulnweb.com/robots.txt
-Request headers: {'host': 'testasp.vulnweb.com', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0', 'pragma': 'no-cache', 'cache-control': 'no-cache'}
-Request body params: []
-Extracted UID value: None
-UID value is None, skipping SQL keyword analysis for request: GET http://testasp.vulnweb.com/robots.txt
-Analyzing request: GET http://testasp.vulnweb.com/sitemap.xml
-Request headers: {'host': 'testasp.vulnweb.com', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0', 'pragma': 'no-cache', 'cache-control': 'no-cache'}
-Request body params: []
-Extracted UID value: None
-UID value is None, skipping SQL keyword analysis for request: GET http://testasp.vulnweb.com/sitemap.xml
-Analyzing request: GET http://testasp.vulnweb.com/Default.asp
-Request headers: {'host': 'testasp.vulnweb.com', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0', 'pragma': 'no-cache', 'cache-control': 'no-cache', 'referer': 'http://testasp.vulnweb.com/', 'Cookie': 'ASPSESSIONIDSATCQQRD=PAPNCLLALFAJDCAACCKHACCL'}
-Request body params: []
-Extracted UID value: None
-UID value is None, skipping SQL keyword analysis for request: GET http://testasp.vulnweb.com/Default.asp
-Analyzing request: GET http://testasp.vulnweb.com/Search.asp
-Request headers: {'host': 'testasp.vulnweb.com', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0', 'pragma': 'no-cache', 'cache-control': 'no-cache', 'referer': 'http://testasp.vulnweb.com/', 'Cookie': 'ASPSESSIONIDSATCQQRD=PAPNCLLALFAJDCAACCKHACCL'}
-Request body params: []
-Extracted UID value: None
-UID value is None, skipping SQL keyword analysis for request: GET http://testasp.vulnweb.com/Search.asp
-Analyzing request: GET http://testasp.vulnweb.com/Templatize.asp?item=html/about.html
-Request headers: {'host': 'testasp.vulnweb.com', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0', 'pragma': 'no-cache', 'cache-control': 'no-cache', 'referer': 'http://testasp.vulnweb.com/', 'Cookie': 'ASPSESSIONIDSATCQQRD=PAPNCLLALFAJDCAACCKHACCL'}
-Request body params: []
-Extracted UID value: None
-UID value is None, skipping SQL keyword analysis for request: GET http://testasp.vulnweb.com/Templatize.asp?item=html/about.html
-Traceback (most recent call last):
-  File "/home/sake/Downloads/under_construction.py", line 177, in <module>
-    features = analyze_request_har(request_method, request_url, request_headers, request_body_params, response_status, response_time)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/sake/Downloads/under_construction.py", line 100, in analyze_request_har
-    for keyword in sql_keywords:
-                   ^^^^^^^^^^^^
-UnboundLocalError: cannot access local variable 'sql_keywords' where it is not associated with a value
+Found 1 processes that could cause trouble.
+Kill them using 'airmon-ng check kill' before putting
+the card in monitor mode, they will interfere by changing channels
+and sometimes putting the interface back in managed mode
+
+    PID Name
+    534 NetworkManager
+
+Requested device "wlan0" does not exist.
+Run /usr/sbin/airmon-ng without any arguments to see available interfaces
+
