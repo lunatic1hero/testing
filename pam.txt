@@ -3,24 +3,3 @@ sudo airmon-ng start wlan0
 
 Requested device "wlan0" does not exist.
 Run /usr/sbin/airmon-ng without any arguments to see available interfaces
-                                                                                                                                                                                                                                           
-┌──(sake㉿pikachu)-[~]
-└─$ sudo ifconfig             
-eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-        inet 192.168.29.6  netmask 255.255.255.0  broadcast 192.168.29.255
-        inet6 fe80::a00:27ff:fe67:a261  prefixlen 64  scopeid 0x20<link>
-        ether 08:00:27:67:a2:61  txqueuelen 1000  (Ethernet)
-        RX packets 3390  bytes 2527929 (2.4 MiB)
-        RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 1860  bytes 255790 (249.7 KiB)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-
-lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
-        inet 127.0.0.1  netmask 255.0.0.0
-        inet6 ::1  prefixlen 128  scopeid 0x10<host>
-        loop  txqueuelen 1000  (Local Loopback)
-        RX packets 4  bytes 240 (240.0 B)
-        RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 4  bytes 240 (240.0 B)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-
