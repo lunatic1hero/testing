@@ -1,5 +1,1 @@
-sudo airmon-ng start wlan0
-
-
-Requested device "wlan0" does not exist.
-Run /usr/sbin/airmon-ng without any arguments to see available interfaces
+https://ctf.os.ftp.sh/files/06cdfec9685a7e259b32d1218f85afd0/image.png?token=eyJ1c2VyX2lkIjoxNTI0LCJ0ZWFtX2lkIjo5MDQsImZpbGVfaWQiOjE3fQ.ZpJlhg.XyozuerMkL_b-TaEP7wl3_VQtmU
