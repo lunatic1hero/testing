@@ -1,60 +1,20 @@
-import pandas as pd
-from pycaret.clustering import load_model, predict_model
-from flask import Flask, request, render_template, redirect, url_for, flash
-import json
-
-# Load the trained model and clustered data
-model_path = 'kmeans_model'
-clustered_data_path = 'clustered_results_with_features.csv'
-trained_model = load_model(model_path)
-clustered_data = pd.read_csv(clustered_data_path)
-
-# Initialize Flask app
-app = Flask(__name__)
-app.secret_key = 'your_secret_key'
-
-# Function to predict the cluster of a new request
-def predict_cluster(new_request_data):
-    prediction = predict_model(trained_model, data=new_request_data)
-    return prediction['Cluster'][0]
-
-# Function to check if the request is safe
-def is_safe_request(cluster_label):
-    safe_cluster = 1  # Assume cluster 1 is safe based on training
-    return cluster_label == safe_cluster
-
-# Admin interface
-@app.route('/admin')
-def admin():
-    logs = []
-    with open('intrusion_logs.json', 'r') as f:
-        logs = json.load(f)
-    return render_template('admin.html', logs=logs)
-
-# Endpoint to simulate incoming requests
-@app.route('/request', methods=['POST'])
-def handle_request():
-    req_data = request.get_json()
-    req_df = pd.DataFrame([req_data])
-    cluster_label = predict_cluster(req_df)
-
-    if not is_safe_request(cluster_label):
-        with open('intrusion_logs.json', 'a') as f:
-            log_entry = {'request': req_data, 'cluster': cluster_label}
-            json.dump(log_entry, f)
-            f.write('\n')
-
-        flash(f"Intrusion detected: {log_entry}", 'danger')
-    else:
-        flash(f"Request is safe and assigned to cluster {cluster_label}", 'success')
-
-    return redirect(url_for('admin'))
-
-# Main page (for demo purposes)
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WAF Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Web Application Firewall (WAF) Demo</h1>
+        <form action="/request" method="post">
+            <div class="form-group">
+                <label for="requestData">Request Data (JSON)</label>
+                <textarea class="form-control" id="requestData" name="requestData" rows="5"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+        </form>
+    </div>
+</body>
+</html>
