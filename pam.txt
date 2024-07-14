@@ -1,118 +1,20 @@
-from flask import Flask, request, render_template, redirect, url_for
-import pandas as pd
-from pycaret.clustering import *
-import json
-import re
-import urllib.parse
-
-app = Flask(__name__)
-
-# Load the clustering model
-csv_file_path = 'clustered_results_with_features.csv'
-data = pd.read_csv(csv_file_path)
-
-# Initialize the clustering setup
-cluster_setup = setup(
-    data, 
-    session_id=123, 
-    normalize=True,  
-    ignore_features=['method', 'path', 'headers', 'body', 'nature', 'body_length', 'response_time', 'response_status'],  
-    verbose=False
-)
-
-# Create a K-Means model
-kmeans_model = create_model('kmeans', num_clusters=7)
-
-# Load the existing intrusion log
-intrusion_log = []
-
-sql_keywords = [
-    'SELECT', 'INSERT', 'UPDATE', 'DELETE', 'DROP', 'CREATE', 'ALTER', 'TRUNCATE',
-    'UNION', 'FROM', 'WHERE', 'AND', 'OR', 'LIKE', 'BETWEEN', 'IN', 'JOIN', 'ON', 'GROUP BY', 'ORDER BY', 'HAVING', 'LIMIT'
-]
-
-xss_patterns = [
-    r'<script',                # <script
-    r'alert\(',                # alert(
-    r'\(alert\(',              # (alert(
-    r'</script>',              # </script>
-    r'document\.cookie',       # document.cookie
-    r'eval\(',                 # eval(
-    r'window\.location',       # window.location
-    r'setTimeout\(',           # setTimeout(
-    r'setInterval\(',          # setInterval(
-    r'execCommand',            # execCommand
-    r'innerHTML',              # innerHTML
-    r'outerHTML',              # outerHTML
-    r'document\.write',        # document.write
-    r'XMLHttpRequest\.open',   # XMLHttpRequest.open
-    r'FormData\.append',       # FormData.append
-    r'document\.getElementById',  # document.getElementById
-    r'document\.createElement',   # document.createElement
-    r'document\.execCommand',     # document.execCommand
-    r'window\.open',              # window.open
-    r'window\.eval',              # window.eval
-    r'window\.setTimeout',        # window.setTimeout
-    r'window\.setInterval',       # window.setInterval
-    r'document\.URL',             # document.URL
-    r'location\.href',            # location.href
-    r'location\.search',          # location.search
-    r'document\.referrer',        # document.referrer
-    r'navigator\.sendBeacon',     # navigator.sendBeacon
-    r'importScripts',             # importScripts
-    r'`',                         # `
-]
-
-csrf_keywords = ['csrf_token', 'anti_csrf_token', 'xsrf_token']
-
-def extract_features(user_input):
-    '''
-    Analyzes the HTTP request from the user input and extracts features related to common attacks.
-    '''
-    features = {
-        'method': 'POST',
-        'path': '/',
-        'headers': '',  # No headers from user input
-        'body': user_input,
-        'body_length': len(user_input),
-        'num_commas': user_input.count(','),
-        'num_hyphens': user_input.count('-'),
-        'num_brackets': user_input.count('(') + user_input.count(')'),
-        'num_quotes': user_input.count("'"),
-        'num_double_quotes': user_input.count('"'),
-        'num_slashes': user_input.count('/'),
-        'num_braces': user_input.count('{') + user_input.count('}'),
-        'num_spaces': user_input.count(' '),
-        'has_sql_keywords': int(any(keyword.lower() in user_input.lower() for keyword in sql_keywords)),
-        'has_xss_payload': int(any(re.search(pattern, user_input.lower()) for pattern in xss_patterns)),
-        'has_csrf_token': int(any(re.search(r'\b{}\b'.format(keyword), user_input.lower()) for keyword in csrf_keywords)),
-        'response_status': 200,  # Default response status
-        'response_time': 0  # Default response time
-    }
-    return features
-
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        search_query = request.form['search_query']
-
-        user_input = f"username={username}&password={password}&search_query={search_query}"
-        features = extract_features(user_input)
-        features_df = pd.DataFrame([features])
-        cluster_prediction = predict_model(kmeans_model, data=features_df)
-        cluster = cluster_prediction['Cluster'][0]
-        
-        if cluster != 1:  # Assuming cluster 1 is the safe cluster
-            intrusion_log.append({'input': user_input, 'cluster': cluster})
-            return redirect(url_for('admin'))
-        return 'Request is allowed.'
-    return render_template('index.html')
-
-@app.route('/admin')
-def admin():
-    return render_template('admin.html', logs=intrusion_log)
-
-if __name__ == '__main__':
-    app.run(debug=True)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAF User Input</title>
+</head>
+<body>
+    <h1>Submit Your Request</h1>
+    <form method="post" action="/">
+        <label for="username">Username:</label><br><br>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Password:</label><br><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <label for="search_query">Search Query:</label><br><br>
+        <input type="text" id="search_query" name="search_query"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
