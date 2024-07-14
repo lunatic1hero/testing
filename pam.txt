@@ -2,19 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>WAF Demo</title>
+    <title>Admin Interface</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container">
-        <h1 class="mt-5">Web Application Firewall (WAF) Demo</h1>
-        <form action="/request" method="post">
-            <div class="form-group">
-                <label for="requestData">Request Data (JSON)</label>
-                <textarea class="form-control" id="requestData" name="requestData" rows="5"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit Request</button>
-        </form>
+        <h1 class="mt-5">Admin Interface</h1>
+        <div>
+            <h2>Intrusion Logs</h2>
+            {% for log in logs %}
+                <div class="alert alert-danger">
+                    <strong>Intrusion Detected:</strong> Request Data - {{ log['request'] }}, Cluster - {{ log['cluster'] }}
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </body>
 </html>
