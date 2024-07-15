@@ -1,1 +1,49 @@
-http://127.0.0.1:5000/
+# Import necessary libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+from pycaret.clustering import load_model, predict_model
+
+# Load the clustered data
+data_path = '../data/clustered_results_with_features.csv'
+data = pd.read_csv(data_path)
+
+# Display the first few rows of the data
+data.head()
+
+# Load the K-Means model
+model = load_model('../models/kmeans_model')
+
+# Analyze the distribution of requests across clusters
+cluster_counts = data['Cluster'].value_counts()
+print("Cluster distribution:")
+print(cluster_counts)
+
+# Visualize the cluster distribution
+plt.figure(figsize=(10, 6))
+cluster_counts.plot(kind='bar')
+plt.title('Distribution of Requests Across Clusters')
+plt.xlabel('Cluster')
+plt.ylabel('Number of Requests')
+plt.show()
+
+# Check for intrusions based on cluster assignments
+# Assumption: Cluster 1 should have the highest number of requests
+max_cluster = cluster_counts.idxmax()
+intrusions = data[data['Cluster'] != max_cluster]
+
+# Display intrusions
+if not intrusions.empty:
+    print("Intrusions detected:")
+    print(intrusions)
+else:
+    print("No intrusions detected.")
+
+# Visualize features of the requests identified as intrusions
+if not intrusions.empty:
+    plt.figure(figsize=(10, 6))
+    intrusions['Cluster'].value_counts().plot(kind='bar')
+    plt.title('Distribution of Intrusions Across Clusters')
+    plt.xlabel('Cluster')
+    plt.ylabel('Number of Intrusions')
+    plt.show()
+
