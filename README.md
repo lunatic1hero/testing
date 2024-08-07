@@ -1,24 +1,21 @@
-import requests
-import bencodepy
-import hashlib
+def decode_image_msb(image_path):
+    from PIL import Image
+    img = Image.open(image_path)
+    binary_secret_data = ''
+    for pixel in list(img.getdata()):
+        r, g, b = pixel
+        binary_secret_data += str((r & 0b10000000) >> 7)
+        binary_secret_data += str((g & 0b10000000) >> 7)
+        binary_secret_data += str((b & 0b10000000) >> 7)
 
-def get_torrent_info(info_hash):
-    url = f'https://your-torrent-metadata-service/{info_hash}'
-    response = requests.get(url)
-    
-    if response.status_code == 200:
-        torrent_data = bencodepy.decode(response.content)
-        info_dict = torrent_data[b'info']
-        
-        if b'name' in info_dict:
-            file_name = info_dict[b'name'].decode('utf-8')
-            print(f"File Name: {file_name}")
-        else:
-            print("No file name found in torrent info.")
-    else:
-        print(f"Failed to fetch torrent metadata for info_hash {info_hash}")
+    # Convert binary data to string
+    secret_data = ''
+    for i in range(0, len(binary_secret_data), 8):
+        byte = binary_secret_data[i:i+8]
+        secret_data += chr(int(byte, 2))
 
-# Example usage:
-info_hash = 'your_info_hash_here'  # Replace with the actual info_hash from Wireshark
-get_torrent_info(info_hash)
+    return secret_data
 
+# Usage
+decoded_message = decode_image_msb(r'C:\Users\Birad\Downloads\Ninja-and-Prince-Genji-Ukiyoe-Utagawa-Kunisada.flag.png')
+print("Decoded message:", decoded_message)
