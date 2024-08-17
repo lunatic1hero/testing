@@ -1,1 +1,1 @@
-LITCTF{ce@ser_sAlad}
+https://ctf.idek.team/login?token=Z%2FpZySyaOISCdpA0Z44bJposucyytleZPGAyoLitys5TA90TxEKR%2FHIlb%2BicxuAsxZ%2FGuoCCnnlEp1ij10%2BHnXvyjGLCLdR4tNEf0fg9MIa3Y1h8NftRkwEMuWjM
