@@ -41,5 +41,3 @@ if golden_ticket_m is not None:
     print(f"The golden ticket (m value) is: {golden_ticket_m}")
 else:
     print("The golden ticket (m value) could not be found.")
-
-
