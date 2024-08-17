@@ -1,26 +1,45 @@
 from Crypto.Util.number import bytes_to_long
 
-# Provided remain values
+# The chocolate generator function provided
+def chocolate_generator(m: int) -> int:
+    p = 396430433566694153228963024068183195900644000015629930982017434859080008533624204265038366113052353086248115602503012179807206251960510130759852727353283868788493357310003786807
+    return (pow(13, m, p) + pow(37, m, p)) % p
+
+# The remain values from the challenge
 remain = [
     88952575866827947965983024351948428571644045481852955585307229868427303211803239917835211249629755846575548754617810635567272526061976590304647326424871380247801316189016325247,
     67077340815509559968966395605991498895734870241569147039932716484176494534953008553337442440573747593113271897771706973941604973691227887232994456813209749283078720189994152242
 ]
 
-# Chocolate generator function
-def chocolate_generator(m: int) -> int:
-    p = 396430433566694153228963024068183195900644000015629930982017434859080008533624204265038366113052353086248115602503012179807206251960510130759852727353283868788493357310003786807
-    return (pow(13, m, p) + pow(37, m, p)) % p
+# Starting and ending flag strings
+start_flag = b"idek{REDACTED}"
+end_flag = b"idek{gyvggxcvhjkoiuytfvbhjkiuytrfdcvbnjkuytfvbjuytfvbnjuygbnjgbji_8087837yjnbhbv}"
 
-# Convert strings to their corresponding integer values
-m_start = bytes_to_long(b"idek{}")
-m_end = bytes_to_long(b"idek{gcffdfghyfdfghjkhgfdfghjkjhgfdfgiuytfghuytfguy}")
+# Convert the flags to their corresponding long integer representations
+start_m = bytes_to_long(start_flag)
+end_m = bytes_to_long(end_flag)
 
-# Brute-force m values between the two calculated values
-for m in range(m_start, m_end):
-    if chocolate_generator(m) == remain[0] and chocolate_generator(m + 1) == remain[1]:
-        golden_ticket = m + 2  # The correct golden_ticket is m + 2
-        print(f"Golden ticket found: {golden_ticket}")
-        break
+# Binary search to find the correct m value
+def find_golden_ticket(remain, start_m, end_m):
+    while start_m <= end_m:
+        mid_m = (start_m + end_m) // 2
+        mid_value = chocolate_generator(mid_m)
+        
+        if mid_value == remain[1] and chocolate_generator(mid_m - 1) == remain[0]:
+            return mid_m
+        elif mid_value < remain[1]:
+            start_m = mid_m + 1
+        else:
+            end_m = mid_m - 1
+    
+    return None
+
+# Find the golden ticket value
+golden_ticket_m = find_golden_ticket(remain, start_m, end_m)
+
+if golden_ticket_m is not None:
+    print(f"The golden ticket (m value) is: {golden_ticket_m}")
 else:
-    print("No matching golden ticket found in the given range.")
+    print("The golden ticket (m value) could not be found.")
+
 
