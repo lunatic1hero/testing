@@ -1,43 +1,36 @@
-from Crypto.Util.number import bytes_to_long
+from bcc import BPF 
+from time import sleep
 
-# The chocolate generator function provided
-def chocolate_generator(m: int) -> int:
-    p = 396430433566694153228963024068183195900644000015629930982017434859080008533624204265038366113052353086248115602503012179807206251960510130759852727353283868788493357310003786807
-    return (pow(13, m, p) + pow(37, m, p)) % p
-
-# The remain values from the challenge
-remain = [
-    88952575866827947965983024351948428571644045481852955585307229868427303211803239917835211249629755846575548754617810635567272526061976590304647326424871380247801316189016325247,
-    67077340815509559968966395605991498895734870241569147039932716484176494534953008553337442440573747593113271897771706973941604973691227887232994456813209749283078720189994152242
-]
-
-# Starting and ending flag strings
-start_flag = b"idek{REDACTED}"
-end_flag = b"idek{gyvggxcvhjkoiuytfvbhjkiuytrfdcvbnjkuytfvbjuytfvbnjuygbnjgbji_8087837yjnbhbv}"
-
-# Convert the flags to their corresponding long integer representations
-start_m = bytes_to_long(start_flag)
-end_m = bytes_to_long(end_flag)
-
-# Binary search to find the correct m value
-def find_golden_ticket(remain, start_m, end_m):
-    while start_m <= end_m:
-        mid_m = (start_m + end_m) // 2
-        mid_value = chocolate_generator(mid_m)
-        
-        if mid_value == remain[1] and chocolate_generator(mid_m - 1) == remain[0]:
-            return mid_m
-        elif mid_value < remain[1]:
-            start_m = mid_m + 1
-        else:
-            end_m = mid_m - 1
+program = r"""
+BPF_HASH(counter_table);
+int hello(struct bpf_raw_tracepoint_args *ctx) {
+    int syscall_num = ctx -> args[0];
+    u64 counter = 0;
+    u64 *p ;
     
-    return None
 
-# Find the golden ticket value
-golden_ticket_m = find_golden_ticket(remain, start_m, end_m)
+    p = counter_table.lookup(&syscall_num);
+    
+    if (p!=0) {
+    counter = *p;
+ }
+   
 
-if golden_ticket_m is not None:
-    print(f"The golden ticket (m value) is: {golden_ticket_m}")
-else:
-    print("The golden ticket (m value) could not be found.")
+   counter++;
+   counter_table.update(&syscall_num , &counter);
+ 
+   return 0;
+
+}
+"""
+
+b=BPF(text=program)
+
+b.attach_raw_tracepoint(tp="sys_enter" , fn_name = "hello")
+
+while True:
+    sleep(2)
+    s = ""
+    for k,v in b["counter_table"].items():
+        s += f"syscall {k.value}: {v.value}\t"
+    print(s)
