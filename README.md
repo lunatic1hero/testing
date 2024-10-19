@@ -1,1 +1,2 @@
-https://2024.csc.tf/files/51a0353a8badeccdb9a7ab342412320f/encryptor.apk?token=eyJ1c2VyX2lkIjoxMzAzLCJ0ZWFtX2lkIjo2ODcsImZpbGVfaWQiOjMxfQ.ZtIrWw.h6mDpsZvH8L7bfWSB_yWnZZFxCc
+https://ctf.deadface.io/teams/invite?code=eyJpZCI6ODM0LCJ2IjoiMzAxYTQ2MzVjM2ViMDUwNGY4MWVhODRhYWI0YWViY2M1OTE1YWEzYiJ9.ZxJ08g.TssTEdt6zS9nqmqX6rBNEr1zaGg
+
