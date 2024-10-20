@@ -1,2 +1,1 @@
-https://ctf.deadface.io/teams/invite?code=eyJpZCI6ODM0LCJ2IjoiMzAxYTQ2MzVjM2ViMDUwNGY4MWVhODRhYWI0YWViY2M1OTE1YWEzYiJ9.ZxJ08g.TssTEdt6zS9nqmqX6rBNEr1zaGg
-
+https://2024.sunshinectf.org/challenges
